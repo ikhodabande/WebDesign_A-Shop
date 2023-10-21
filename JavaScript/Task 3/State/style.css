@@ -1,0 +1,32 @@
+
+main,nav{
+    display: flex;
+    max-width: 400px;
+    margin: 0px auto;
+}
+
+main{
+
+ justify-content: center;
+ align-items: center;
+ background-color: red;
+ min-height: 90vh;
+ 
+}
+
+
+nav{
+ background-color: white;
+ min-height: 50px;
+ justify-content: space-around;
+ align-items: center;
+
+}
+
+nav i{
+ list-style-type: none;
+ color: #666;
+ cursor: pointer;
+}
+
+
