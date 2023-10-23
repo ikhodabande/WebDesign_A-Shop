@@ -10,6 +10,7 @@ class Users extends Component {
 
 async componentDidMount(){
     const response = await axios.get('https://reqres.in/api/users?page=2')
+    console.log(response)
     setTimeout(() => {
         this.setState({users : response.data.data, isLoading : false });
     }, 3000);
@@ -57,18 +58,26 @@ async componentDidMount(){
             email : "amii_mhmd@yahoo.com",
             avatar : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnordic.ign.com%2Favatar-generations&psig=AOvVaw2GOrsd_IANzJIzHGhBCDZj&ust=1697875427801000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCOjdyIGVhIIDFQAAAAAdAAAAABAD"
    };
-     const response = await axios.post('https://reqres.in/api/users?page=2',newUser)
-     this.setState({users : [...this.state.users,newUser]})
-    }
+     const response = await axios.post('https://reqres.in/api/users?page=2',newUser);
+     console.log(response)
+     this.setState({users : [...this.state.users,newUser]});
+    };
 
-    handleUpdate=async(user)=>{
-      user.first_name = "updated"
-      const response = await axios.put(`https://reqres.in/api/users?page=2${user.id}`)  
-    }
+    handleUpdate = async (user) => {
+      user.first_name = 'updated';
+      const response = await axios.put(`https://reqres.in/api/users?page=2/${user.id}`,user);
+      console.log(response)
+      const updatedUsers = [...this.state.users];
+      const index = updatedUsers.indexOf(user);
+      updatedUsers[index] = {...user};
+      this.setState({users : updatedUsers}); 
+    };
 
-    handleDelete=(user)=>{
-        
-    }
+    handleDelete= async(user)=>{
+       const response = await axios.delete(`https://reqres.in/api/users?page=2${user.id}`)
+       const newUsers = this.state.users.filter(u=> u.id !== user.id);
+       this.setState({users:newUsers});
+    };
 }
         
             
