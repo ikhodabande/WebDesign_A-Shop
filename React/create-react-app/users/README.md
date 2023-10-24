@@ -34,5 +34,30 @@ To set up this project, follow these steps:
 
 1. Clone the repository to your local machine:
 
-   ```bash
+ ```bash
    git clone https://github.com/your-username/react-user-management.git
+
+```
+2. Navigate to the project directory:
+ ```bash
+     cd react-user-management
+  ```
+
+3.Install the project dependencies:
+  ```bash
+     npm install
+```
+
+4.Run the development server:
+  ```bash
+     npm start
+```
+
+The app should now be running on http://localhost:3000, and you can access it in your web browser.
+
+## Usage
+
+- The home page displays a list of users with their names and avatars.
+- Use the navigation bar to navigate between different sections: Home, Login, Register, User.
+- Clicking on a user's name will take you to a new page that displays their avatar and name, demonstrating the passing and receiving of parameters between components.
+- Enjoy exploring the project and experimenting with the features!
