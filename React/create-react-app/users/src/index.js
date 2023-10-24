@@ -2,5 +2,10 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './app';
 import 'react-loading-skeleton/dist/skeleton.css'
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.render(<App />,document.getElementById('root'));
+ReactDOM.render(
+<BrowserRouter>
+<App />
+</BrowserRouter>
+,document.getElementById('root'));
