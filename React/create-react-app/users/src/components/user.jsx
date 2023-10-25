@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import queryString from "query-string";
 
 
 const User = () => {
     
 const [user, setUser] = useState({});
 const {id} = useParams();
-
+console.log(queryString.parse(useLocation().search))
 
 useEffect(() => {
     const fetchData = async () => {
