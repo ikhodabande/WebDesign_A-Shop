@@ -29,7 +29,7 @@ async componentDidMount(){
                 ) : ( this.state.users.map((user)=>{
                             return(
                                 <div className="col-4 text-center p-5">
-                                    <img src={user.avatar} style={{borderRadius:'50%', width:'100%'}} alt="" />
+                                    <img src={user.avatar} style={{borderRadius:'50%', width:'50%'}} alt="" />
                                     <Link to={`/users/${user.id}`}><h4>{user.first_name}{user.last_name}</h4></Link>
                                     <h5>{user.email}</h5>
                                     <div className="row">
