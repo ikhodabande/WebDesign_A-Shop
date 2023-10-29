@@ -11,7 +11,36 @@ import Dashboard from './components/dashboard';
 
 
 class App extends Component {
-    state = { } 
+    state = {
+        user:null
+     } 
+
+
+     componentDidMount(){
+        const token = localStorage.getItem('token');
+        if(!token){
+            this.setState({user:null})
+            return;
+        }
+        // const result = await axios.get('https://reqres.in/api/userbytoken',{token})
+        const response = {
+            data:{
+                user:{
+                    first_name :'amir',
+                    last_name:'khodabande',
+                    email:'aaaa@yahoo.com'
+                }
+            }
+        };
+        if(!response.data.user){
+            this.setState({user:null});
+            return;
+        }
+
+       this.setState({user:response.data.user})
+     }
+
+
     render() { 
         return (
         <>
