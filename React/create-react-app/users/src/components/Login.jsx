@@ -1,85 +1,82 @@
-import axios from 'axios';
-import React, { Component, createRef } from 'react';
+import React, { useState } from 'react';
 import Input from './input';
 import * as yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-class Login extends Component {
-    state = {
-        acount : {
-            email:'',
-            password:''
-        },
-        errors: [],
-        sending:false
-      } 
-      
+function Login() {
+  const navigate = useNavigate();
 
-      schema = yup.object().shape({
-        email:yup.string().email('ایمیل خود را بصورت درست وارد نمایید.').required('ایمیل خود را وارد نمایید.'),
-        password:yup.string().min(4,'حداقل باید از 4 کاراکتر استفاده نمایید.').required('رمز عبور خود را وارد نکرده اید.')
-      })
+  const [account, setAccount] = useState({
+    email: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState([]);
+  const [sending, setSending] = useState(false);
 
-      validate = async() =>{
-        try {
-            const result = await this.schema.validate(this.state.acount , {abortEarly:false});
-            return result
-            
-        } catch (error) {
-            console.log(error.errors);
-            this.setState({errors:error.errors});
-        }
-      };
+  const schema = yup.object().shape({
+    email: yup.string().email('ایمیل خود را بصورت درست وارد نمایید.').required('ایمیل خود را وارد نمایید.'),
+    password: yup.string().min(4, 'حداقل باید از 4 کاراکتر استفاده نمایید.').required('رمز عبور خود را وارد نکرده اید.'),
+  });
 
-    handleSubmit = async(e) =>{
-        e.preventDefault();
-        const result = await this.validate();
-        console.log(result);
-        if(result){
-            try {
-                this.setState({sending:true});
-                const response = await axios.post('https://reqres.in/api/login', result)
-                    console.log(response);
-                    this.setState({sending:false})
-                
-            } catch (error) {
-                this.setState({errors:['رمز یا ایمیل اشتباه وارد شده است']});
-                this.setState({sending:false});
-            }
-        }
-
-    };
-
-    handleChange=(e)=>{
-       const input = e.currentTarget;
-       const acount = {...this.state.acount};
-       acount[input.name] = input.value;
-       this.setState({acount})
-
+  const validate = async () => {
+    try {
+      await schema.validate(account, { abortEarly: false });
+      return true;
+    } catch (error) {
+      setErrors(error.errors);
+      return false;
     }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await validate();
+    console.log(result);
 
-    render() { 
-        const {email,password} = this.state.acount;
-        return (
-            <>{
-                this.state.errors.length !== 0  && (
-                    <div className="alert alert-danger">
-                        <ul>
-                            {
-                                this.state.errors.map((e,i)=> <li key={i}>{e}</li>)
-                            }
-                        </ul>
-                    </div>
-                )
-            }
-            <form onSubmit={this.handleSubmit}>
-                <Input name='email' label='email' value={email} onChange={this.handleChange} />
-                <Input name='password' label='password' value={password} onChange={this.handleChange} />
-                <button disabled={this.state.sending} className='btn btn-info'>Login</button>
-            </form>
-            </>
-        );
+    if (result) {
+      try {
+        setSending(true);
+        const response = await axios.post('https://reqres.in/api/login', account);
+        console.log(response);
+        setSending(false);
+        localStorage.setItem('token', response.data.token);
+        navigate('/dashboard'); // Use navigate to change the route
+      } catch (error) {
+        setErrors(['رمز یا ایمیل اشتباه وارد شده است']);
+        setSending(false);
+      }
     }
+  };
+
+  const handleChange = (e) => {
+    const input = e.currentTarget;
+    setAccount({
+      ...account,
+      [input.name]: input.value,
+    });
+  };
+
+  return (
+    <>
+      {errors.length !== 0 && (
+        <div className="alert alert-danger">
+          <ul>
+            {errors.map((e, i) => (
+              <li key={i}>{e}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <form onSubmit={handleSubmit}>
+        <Input name="email" label="email" value={account.email} onChange={handleChange} />
+        <Input name="password" label="password" value={account.password} onChange={handleChange} />
+        <button disabled={sending} className="btn btn-info">
+          Login
+        </button>
+      </form>
+    </>
+  );
 }
- 
+
 export default Login;
