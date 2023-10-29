@@ -9,7 +9,8 @@ class Login extends Component {
             email:'',
             password:''
         },
-        errors: []
+        errors: [],
+        sending:false
       } 
       
 
@@ -34,8 +35,16 @@ class Login extends Component {
         const result = await this.validate();
         console.log(result);
         if(result){
-            const response = await axios.post('https://reqres.in/api/login', result)
-            console.log(response);
+            try {
+                this.setState({sending:true});
+                const response = await axios.post('https://reqres.in/api/login', result)
+                    console.log(response);
+                    this.setState({sending:false})
+                
+            } catch (error) {
+                this.setState({errors:['رمز یا ایمیل اشتباه وارد شده است']});
+                this.setState({sending:false});
+            }
         }
 
     };
@@ -66,7 +75,7 @@ class Login extends Component {
             <form onSubmit={this.handleSubmit}>
                 <Input name='email' label='email' value={email} onChange={this.handleChange} />
                 <Input name='password' label='password' value={password} onChange={this.handleChange} />
-                <button className='btn btn-info'>Login</button>
+                <button disabled={this.state.sending} className='btn btn-info'>Login</button>
             </form>
             </>
         );

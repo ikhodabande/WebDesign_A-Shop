@@ -7,6 +7,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import User from './components/user';
 import Not_found from './components/not-found';
+import Dashboard from './components/dashboard';
 
 
 class App extends Component {
@@ -22,9 +23,10 @@ class App extends Component {
              <Route path='/login' Component={Login} />
              <Route path='/not-found' Component={Not_found} />
              <Route path='/register' Component={Register} />
+             <Route path='/dashboard' Component={Dashboard} />
              <Route path='/' Component={Home} />
-            <Route path='*' 
-             element={<Not_found />} />
+             <Route path='*' 
+              element={<Not_found />} />
             </Routes>
            
         </div>
