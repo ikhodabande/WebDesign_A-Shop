@@ -8,7 +8,7 @@ import Home from './components/Home';
 import User from './components/user';
 import Not_found from './components/not-found';
 import Dashboard from './components/dashboard';
-
+import Logout from './components/logout';
 
 class App extends Component {
     state = {
@@ -44,12 +44,13 @@ class App extends Component {
     render() { 
         return (
         <>
-        <Navbar />
+        <Navbar user={this.state.user} />
         <div className='container mt-3'>
             <Routes>
              <Route path='/users/:id' Component={User} />
              <Route path='/users' Component={Users} />
              <Route path='/login' Component={Login} />
+             <Route path='/logout' Component={Logout} />
              <Route path='/not-found' Component={Not_found} />
              <Route path='/register' Component={Register} />
              <Route path='/dashboard' Component={Dashboard} />

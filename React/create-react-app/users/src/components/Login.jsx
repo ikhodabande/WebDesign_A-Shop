@@ -41,7 +41,8 @@ function Login() {
         console.log(response);
         setSending(false);
         localStorage.setItem('token', response.data.token);
-        navigate('/dashboard'); // Use navigate to change the route
+        // navigate('/dashboard'); // Use navigate to change the route
+        window.location = './dashboard';
       } catch (error) {
         setErrors(['رمز یا ایمیل اشتباه وارد شده است']);
         setSending(false);
