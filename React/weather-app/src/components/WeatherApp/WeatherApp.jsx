@@ -8,7 +8,7 @@ import humidity_icon from '../Assests/humidity.png';
 import mist_icon from '../Assests/mist.png';
 import rain_icon from '../Assests/rain.png';
 import snow_icon from '../Assests/snow.png';
-import wind_icon from '../Assests/snow.png';
+import wind_icon from '../Assests/wind.png';
 
 
 const WeatherApp = () => {
@@ -25,9 +25,19 @@ const WeatherApp = () => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=metric&appid=${api_key}`;
     const response = await fetch(url);
     const data = await response.json();
-
+    
+    
     const weather =  document.querySelector(".weather");
-    weather.style.display = "flex";
+    const error = document.querySelector('.error')
+
+    if(response.status === 404 ){
+      error.style.display = "block";
+      weather.style.display = "none";
+    }else {
+      weather.style.display = "flex";
+      error.style.display = "none";
+    }
+ 
 
     const humidity = document.getElementsByClassName('humidity-rate');
     const wind = document.getElementsByClassName('wind');
@@ -87,7 +97,7 @@ const WeatherApp = () => {
                     </div>
            </div>
     <div className="weather">
-      <img src={clouds_icon} className="weather-icone" alt=""/>
+      <img src={wicon} className="weather-icone" alt=""/>
       <h1 className="temprature">22°c</h1>
       <h2 className="weather-location">New York</h2>
       <div className="details">
